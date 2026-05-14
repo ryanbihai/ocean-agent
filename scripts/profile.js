@@ -86,7 +86,7 @@ async function interactiveSetup() {
     ob = await createOceanBus({ keyStore: { type: 'memory' } });
     let reg;
     try {
-      reg = await ob.register();
+      reg = await ob.createIdentity();
     } catch (e) {
       if (typeof e.isRateLimited === 'function' && e.isRateLimited()) {
         const wait = e.retryAfterSeconds
@@ -98,7 +98,7 @@ async function interactiveSetup() {
       }
       return;
     }
-    const openid = await ob.getOpenId();
+    const openid = await ob.getAddress();
     saveCredentials(reg.agent_id, reg.api_key, openid);
 
     console.log('✅ 注册成功！');
